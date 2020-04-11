@@ -14,10 +14,12 @@ private:
     bool canCheck;
 
 public:
-    static void set(int x, int y);
+    void set(int x, int y);
     int getCol();
     int getRow();
-    string getPlayer();
-    bool canMove();
+    std::string getPlayer();
+    virtual bool canMove();
 
 }
+
+#endif

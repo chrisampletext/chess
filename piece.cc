@@ -6,7 +6,7 @@
 using namespace std;
 
 
-Piece::Piece(char c){
+Piece::Piece(char c, int x, int y){
     if (c == ' '){
         type = "none"
     }
@@ -14,9 +14,12 @@ Piece::Piece(char c){
         type = "white";
     }
     else{
-        type = black;
+        type = "black";
     }
     name = c;
+
+    row =x;
+    col = y;
 }
 
 Piece::~Piece(){
