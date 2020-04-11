@@ -1,4 +1,5 @@
 #include "piece.h"
+#include "board.h"
 #include <iostream>
 #include <sstream>
 
@@ -6,7 +7,7 @@
 using namespace std;
 
 
-Piece::Piece(char c, int x, int y){
+Piece::Piece(char c, int x, int y, Board *board){
     if (c == ' '){
         type = "none"
     }
@@ -17,8 +18,8 @@ Piece::Piece(char c, int x, int y){
         type = "black";
     }
     name = c;
-
-    row =x;
+    board = board;
+    row = x;
     col = y;
 }
 

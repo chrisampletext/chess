@@ -12,8 +12,11 @@ private:
     char name;
     std::string type;
     bool canCheck;
+    int *board;
 
 public:
+    int nextRow;
+    int nextCol;
     void set(int x, int y);
     int getCol();
     int getRow();

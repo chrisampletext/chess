@@ -3,11 +3,12 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "piece.h"
 
 class Player{//extend peice class after
     public:
     //for pieces(change to char when the piece classes are done)
-    std::vector<char> pieces;
+    std::vector<Piece*> pieces;
     
 
     ~Player();
