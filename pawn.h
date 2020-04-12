@@ -5,11 +5,13 @@
 
 class Pawn: public Piece{
 
-
-
 public:
- 
-    bool canMove() override;
+    ~Pawn();
+    Pawn(int x, int y , char c);
+
+    
+    
+    //void setGame() override;
 
 };
 

@@ -4,19 +4,21 @@
 #include <iostream>
 #include "player.h"
 
-class Board: public Player {//extend peice class after
+
+class Board{//extend peice class after
     public:
     //2d array for peice class for board
     //change to peice type
     //board is [x][y]
+    Board(Player* fp,Player* sp);
+    
     char**curBoard;
     //first player second player
-    Player* fp;
-    Player* sp;
     
-
+    void move(Player* fp,Player* sp);
     ~Board();
-    void start();
+    
+    
     //void end();
     //bool isCheckMate();
     //bool isCheck();

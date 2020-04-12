@@ -13,17 +13,14 @@ Board::~Board(){
     for(int i = 0; i < 8; ++i) {
         delete[] curBoard[i];   
     }
-    delete fp;
-    delete sp;
+    
     delete[] curBoard;
 }
 
-void Board::start(){
+//to start
+Board::Board(Player* fp,Player* sp){
     curBoard = new char*[8];
-    fp = new Player;
-    sp = new Player;
-    fp->start();
-    sp->start();
+
     for(int x = 0; x<8; x++){
         curBoard[x] = new char[8];
         for(int y =0; y<8; y++){
@@ -31,11 +28,30 @@ void Board::start(){
         }
     }
     //set first and second
-    for (int y=0;y<8;y++){
-        curBoard[0][y] = fp->pieces[y];
-        curBoard[1][y] = fp->pieces[y+8];
-        curBoard[6][y] = sp->pieces[y+8];
-        curBoard[7][y] = sp->pieces[y];
+    for (int x=0;x<8;x++){
+        curBoard[x][0] = fp->pieces[x]->name;
+        curBoard[x][1] = fp->pieces[x+8]->name;
+        curBoard[x][6] = sp->pieces[x+8]->name;
+        curBoard[x][7] = sp->pieces[x]->name;
+    }
+}
+
+void Board::move(Player* fp,Player* sp){
+    for(int x = 0; x<8; x++){
+            for(int y =0; y<8; y++){
+            curBoard[x][y]='*';
+        }
+    }
+
+    for(int i=0; i < fp->pieces.size(); i++){
+        //cout<<"fp->pieces[i]->col "<< fp->pieces[i]->col << " fp->pieces[i]->row "<<fp->pieces[i]->row<<endl;
+        curBoard[fp->pieces[i]->col][fp->pieces[i]->row] = fp->pieces[i]->name;
+        
+    }
+
+    for(int i=0; i < sp->pieces.size(); i++){
+        curBoard[sp->pieces[i]->col][sp->pieces[i]->row] = sp->pieces[i]->name;
+
     }
 }
 

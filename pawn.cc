@@ -1,12 +1,15 @@
-#include "piece.h"
+#include "pawn.h"
 #include <iostream>
 #include <sstream>
 using namespace std;
 
 
-Pawn::Pawn(char c,int x, int y, Board *board){
-    Piece(c, x, y, board);
-}
+Pawn::Pawn(int x, int y, char c): Piece(x, y, c) {}
+
+/*void Pawn::setGame(Board * b){
+    game = b;
+}*/
+
 
 Pawn::~Pawn(){
 }
@@ -25,13 +28,6 @@ Pawn::~Pawn(){
 
 //aside: if pawn is at the end of the board it promotes
 
+//move either by kill or by going up
+//check if pawn is going down or up and determine if you can move
 
-bool::Pawn canMove(){
-    if(x == 2){
-        cout << "dicks" << endl;
-    }
-    else{
-        cout << "hello world" << endl;
-
-    }
-}
