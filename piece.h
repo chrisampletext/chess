@@ -1,28 +1,31 @@
-#ifndef __PIECE_H__
-#define __PIECE_H__
+#ifndef PIECE_H
+#define PIECE_H
 #include <string>
+//#include "board.h"
 
 
 
 class Piece{
 
 private:
-    int row;
-    int col;
-    char name;
+    
+    
     std::string type;
     bool canCheck;
-    int *board;
+   // Board *board;
 
 public:
-    int nextRow;
-    int nextCol;
-    void set(int x, int y);
-    int getCol();
-    int getRow();
+    int col;
+    int row;
+    char name;
+    //void set(int x, int y);
+    ~Piece();
+    Piece(int x, int y, char c);
     std::string getPlayer();
-    virtual bool canMove();
+    bool pieceCanMove(int newx, int newy, int playerNum);
+    //virtual bool pieceCanMove(int x,int y)=0;
+    //virtual void setGame();
 
-}
+};
 
 #endif
