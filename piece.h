@@ -1,6 +1,7 @@
 #ifndef PIECE_H
 #define PIECE_H
 #include <string>
+#include <vector>
 //#include "board.h"
 
 
@@ -15,6 +16,7 @@ private:
    // Board *board;
 
 public:
+    std::vector<char**> moves;
     int col;
     int row;
     char name;
@@ -22,9 +24,8 @@ public:
     ~Piece();
     Piece(int x, int y, char c);
     std::string getPlayer();
-    bool pieceCanMove(int newx, int newy, int playerNum);
-    //virtual bool pieceCanMove(int x,int y)=0;
-    //virtual void setGame();
+    virtual void setMoves(int playerNum);
+    virtual void deleteMoves(int playerNum);
 
 };
 
