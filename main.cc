@@ -1,24 +1,15 @@
 #include <iostream>
+#include <sstream>
 #include "board.h"
 #include "piece.h"
 #include "player.h"
 
 using namespace std;
 
-ostream& operator<<(ostream& out, Board* board){
-    for(int y = 0; y<8; y++){
-        for(int x =0; x<8; x++){
-            out<<board->curBoard[x][y];
-        }
-        out<<endl;
-    }
-
-    return out;
-
-}
-
 
 int main() {
+
+
     Player *fp = new Player;
     Player *sp = new Player;
     fp->number = 1;
@@ -28,7 +19,35 @@ int main() {
     fp->opponent = sp;
     sp ->opponent = fp;
     Board *b = new Board(fp,sp);
-    cout<<b<<endl;
+
+    string s;
+
+    while (cin >> s){
+        if (s == "setup"){
+            cout << "SETUP MODE" << endl;
+            b->setup();
+        }
+        else if (s == "kill"){
+            break;
+        }
+        else if (s == "game"){
+            cout << "BEGINNING GAME.... GOOD LUCK HAVE FUN" << endl;
+            b->game();
+            break;
+        }
+        else{
+            cout << "INVALID COMMAND" << endl;
+        }
+    }
+
+    delete fp;
+    delete sp;
+    delete b;
+
+
+
+
+    /*
     //test case 1: valid move
     fp->curCol = 0;
     fp->curRow = 1;
@@ -36,8 +55,8 @@ int main() {
     fp->nextRow = 3;
     fp->move();
     b->move(fp,sp);
-    cout<<b<<endl;
-    
+    cout<<b;
+
     //test 2: invalid move
     sp->curCol = 6;
     sp->curRow = 6;
@@ -47,19 +66,17 @@ int main() {
     b->move(fp,sp);
     cout<<b;
 
-    //test 3: valid move
+    //test 2: invalid move
     sp->curCol = 6;
     sp->curRow = 6;
     sp->nextCol = 6;
     sp->nextRow = 5;
     sp->move();
     b->move(fp,sp);
-    cout<<b<<endl;
-
-    //fp->pieces[8]->setMoves(1);
-
+    cout<<b;
     delete fp;
     delete sp;
     delete b;
+    */
 
 }

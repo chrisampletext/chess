@@ -30,11 +30,6 @@ void Piece::set(int x, int y){
 }
 */
 
-string Piece::getPlayer(){
-    return type;
-}
-
-
 
 void Piece::setMoves(int playerNum){
 
