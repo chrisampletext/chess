@@ -186,7 +186,7 @@ void Board::setup(){
 
 
 
-void Board::game(){
+void Board::game(Player* fp,Player* sp){
     string s;
     istringstream ss();
 
@@ -198,23 +198,32 @@ void Board::game(){
         }
         else if (s == "move"){
             cout << "we movin" << endl;
+            while(true){
+                string initPos; //take in our two positions
+                string finalPos;
+                cin >> initPos;
+                cin >> finalPos;
 
-            string initPos; //take in our two positions
-            string finalPos;
-            cin >> initPos;
-            cin >> finalPos;
 
-
-            int x1 = initPos[0] - 97; //converting using ASCII
-            int y1 = abs(initPos[1] - 48 - 1 - 7); //subtract 1 to get arrary coords then subtract 7 to invert to correct space.
-            int x2 = finalPos[0] - 97; 
-            int y2 = abs(finalPos[1] - 48 - 1 - 7);
-            this->curBoard[x2][y2] = this->curBoard[x1][y1]; //this is the swap.
-            this->curBoard[x1][y1] = '*';
-            cout << this << endl; //output the board
+                fp->curCol = initPos[0] - 97; //converting using ASCII
+                fp->curRow = abs(initPos[1] - 48 - 1 - 7); //subtract 1 to get arrary coords then subtract 7 to invert to correct space.
+                fp->nextCol = finalPos[0] - 97; 
+                fp->nextRow = abs(finalPos[1] - 48 - 1 - 7);
+                /*this->curBoard[x2][y2] = this->curBoard[x1][y1]; //this is the swap.
+                this->curBoard[x1][y1] = '*';*/
+                if(fp->canMove()){
+                    fp->move();
+                    this->move(fp,sp);
+                    cout << this << endl; //output the board
+                    break;
+                }else{
+                    cout << this << endl; //output the board
+                    cout << "INVALID COMMAND" << endl;
+                }
+                
+                
+            }
         }
-        else{
-            cout << "INVALID COMMAND" << endl;
-        }
+        
     }
 }

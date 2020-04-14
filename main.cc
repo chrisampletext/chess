@@ -32,7 +32,7 @@ int main() {
         }
         else if (s == "game"){
             cout << "BEGINNING GAME.... GOOD LUCK HAVE FUN" << endl;
-            b->game();
+            b->game(fp,sp);
             break;
         }
         else{

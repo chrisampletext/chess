@@ -22,12 +22,18 @@ int Player::getPiece(){
         }
     }
     //error check
-    return 0;
+    return -1;
 }
 
 bool Player::canMove(){
     //change maybe for style
-    Piece* movePiece = pieces[getPiece()];
+    //player selected blank tile
+    int pieceIndex = getPiece();
+    if(pieceIndex==-1){
+        cout<<"erferf";
+        return false;
+    }
+    Piece* movePiece = pieces[pieceIndex];
     if(number == 1){
         movePiece->setMoves(1);
     }
@@ -92,17 +98,22 @@ bool Player::isSpotTaken(int x, int y){
 
 void Player::move(){
     //change to peice
-    
-    Piece* movePiece = pieces[getPiece()];
+  
+    int pieceIndex = getPiece();
+    Piece* movePiece = pieces[pieceIndex];
     //cout<<movePiece->col<<" "<<movePiece->row<<endl;
     //test case
     cout <<"player "<<number<<endl;
     //cout <<movePiece->pieceCanMove(nextCol,nextRow,number)<<endl;
     //cout <<!(this->isSpotTaken())<<endl;
-    if(this->canMove()){
-        pieces[getPiece()]->col=nextCol;
-        pieces[getPiece()]->row=nextRow;
-    } 
+    //if(this->canMove()){
+    pieces[pieceIndex]->col=nextCol;
+    pieces[pieceIndex]->row=nextRow;
+    cout<<"Piece: "<<getPiece()<<endl;
+    cout<<"col: "<<pieces[pieceIndex]->col<<endl;
+    cout<<"row: "<<pieces[pieceIndex]->row<<endl;
+    
+    //} 
 
 }
 
