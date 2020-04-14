@@ -25,19 +25,70 @@ int Player::getPiece(){
     return 0;
 }
 
-bool Player::isSpotTaken(){
-    for(int i=0; i < pieces.size(); i++){
-        if(pieces[i]->col==nextCol && pieces[i]->row==nextRow){
+bool Player::canMove(){
+    //change maybe for style
+    Piece* movePiece = pieces[getPiece()];
+    if(number == 1){
+        movePiece->setMoves(1);
+    }
+    if(number == 2){
+        movePiece->setMoves(2);
+    }
+    for(int i=0; i<movePiece->moves.size(); i++){
+        char** temp =movePiece->moves[i];
+        if(temp[nextCol][nextRow] == 'm'){
+            //cases for all 6 directions
+            //for player 1:
+            if(number == 1){
+                //to go forward 
+                 
+                for(int y = curRow; y<curRow; y++){
+                    //if there is a piece on anyof these spots
+                    //should do a check to see which direction
+                    if(this->isSpotTaken(curCol,y)){
+                       return false; 
+                    }
+
+                }
+                return true;
+            }
+
+            if(number == 2){
+                //to go forward   
+                for(int y = curRow; y<curRow; y--){
+                    //if there is a piece on anyof these spots
+                    if(this->isSpotTaken(curCol,y)){
+                       return false; 
+                    }
+
+                }
+                return true;
+            }
+        }       
+        return false;
+    }
+    
+    
+  
+    return false;
+}
+
+
+bool Player::isSpotTaken(int x, int y){
+      for(int i=0; i < pieces.size(); i++){
+        if(pieces[i]->col==x && pieces[i]->row==y){
             return true;
         }
     }
         for(int i=0; i < opponent->pieces.size(); i++){
-        if(opponent->pieces[i]->col==nextCol && opponent->pieces[i]->row==nextRow){
+        if(opponent->pieces[i]->col==x && opponent->pieces[i]->row==y){
             return true;
         }
     }
     return false;
 }
+
+
 
 void Player::move(){
     //change to peice
@@ -48,13 +99,10 @@ void Player::move(){
     cout <<"player "<<number<<endl;
     //cout <<movePiece->pieceCanMove(nextCol,nextRow,number)<<endl;
     //cout <<!(this->isSpotTaken())<<endl;
-    if(movePiece->pieceCanMove(nextCol,nextRow,number) && !(this->isSpotTaken())){
+    if(this->canMove()){
         pieces[getPiece()]->col=nextCol;
         pieces[getPiece()]->row=nextRow;
-    }
-    
-
-
+    } 
 
 }
 

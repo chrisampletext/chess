@@ -36,8 +36,8 @@ int main() {
     fp->nextRow = 3;
     fp->move();
     b->move(fp,sp);
-    cout<<b;
-
+    cout<<b<<endl;
+    
     //test 2: invalid move
     sp->curCol = 6;
     sp->curRow = 6;
@@ -47,14 +47,17 @@ int main() {
     b->move(fp,sp);
     cout<<b;
 
-    //test 2: invalid move
+    //test 3: valid move
     sp->curCol = 6;
     sp->curRow = 6;
     sp->nextCol = 6;
     sp->nextRow = 5;
     sp->move();
     b->move(fp,sp);
-    cout<<b;
+    cout<<b<<endl;
+
+    //fp->pieces[8]->setMoves(1);
+
     delete fp;
     delete sp;
     delete b;

@@ -9,9 +9,10 @@ public:
     ~Pawn();
     Pawn(int x, int y , char c);
 
+   
+    void setMoves(int playerNum);
+    void deleteMoves(int playerNum);
     
-    
-    //void setGame() override;
 
 };
 

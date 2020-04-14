@@ -22,7 +22,8 @@ class Player{//extend peice class after
 
     ~Player();
     void start();
-    bool isSpotTaken();
+    bool canMove();
+    bool isSpotTaken(int x, int y);
     int getPiece();//gets index of peice at certain coordinate
     void move();
 

@@ -31,3 +31,53 @@ Pawn::~Pawn(){
 //move either by kill or by going up
 //check if pawn is going down or up and determine if you can move
 
+
+
+void Pawn::deleteMoves(int playerNum){
+
+}
+
+void Pawn::setMoves(int playerNum){
+    
+    char** move = new char*[8];
+    for(int x = 0; x<8; x++){
+        move[x] = new char[8];
+        for(int y =0; y<8; y++){
+            move[x][y]='*';
+        }
+    }    
+    //for first player
+    if(playerNum == 1){
+        //first move case 
+        if(row==1){ 
+            move[col][row+2] = 'm';
+        }
+        if(row + 1 <= 7){
+            move[col][row+1] = 'm';
+        }
+    }
+    else if(playerNum == 2){
+        //first move case  
+        if(row==6){ 
+            move[col][row-2] = 'm';
+        }
+        if(row - 1 >= 0){
+            move[col][row-1] = 'm';
+        }
+    }
+    
+    moves.push_back(move);
+
+
+    char** temp = moves[0];
+    for(int y = 0; y<8; y++){
+        for(int x =0; x<8; x++){
+            cout<<temp[x][y];
+        }
+        cout<<endl;
+    }
+    //if able to kill
+    //constant M represent move
+    //constant K represent kill
+
+}
