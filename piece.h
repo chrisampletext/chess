@@ -28,5 +28,4 @@ public:
     virtual void deleteMoves(int playerNum);
 
 };
-
 #endif

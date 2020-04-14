@@ -51,6 +51,8 @@ Board::Board(Player* fp,Player* sp){
         curBoard[x][6] = sp->pieces[x+8]->name;
         curBoard[x][7] = sp->pieces[x]->name;
     }
+    fp->inCheck = false;
+    sp->inCheck = false;
 }
 
 void Board::move(Player* fp,Player* sp){
@@ -122,19 +124,13 @@ bool Board::checkBoard(Board *board){
 
 
 void Board::setup(){
-    //work on this later
-    /*Upon completion of setup mode, you must verify that the board 
-    contains exactly one white king and exactly one black king; 
-    that no pawns are on the first or last row of the board; 
-    and that neither king is in check. 
-    The user cannot leave setup mode until these conditions are satisfied. 
-    We recommend doing setup mode early, as it may facilitate testing.
-    */
     string s;
     istringstream ss(s);
 
     while (cin >> s){
         if (s == "+"){ //add a piece
+
+        //add the piece to the players list of pieces 
             cin >> s;
             char c = s[0];
             cin >> s;
@@ -146,6 +142,8 @@ void Board::setup(){
 
         }
         else if (s == "-"){ //remove a piece
+
+        //remove the piece to the palyers list of pieces
             cin >> s;
             int x = s[0] - 97;
             int y = abs(s[1] - 48 - 1 - 7);
@@ -212,6 +210,12 @@ void Board::game(Player* fp,Player* sp){
                 /*this->curBoard[x2][y2] = this->curBoard[x1][y1]; //this is the swap.
                 this->curBoard[x1][y1] = '*';*/
                 if(fp->canMove()){
+                    if (whichTurn == 'w'){
+                        whichTurn == 'b';
+                    }
+                    else{
+                        whichTurn =='w';
+                    }
                     fp->move();
                     this->move(fp,sp);
                     cout << this << endl; //output the board

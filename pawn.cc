@@ -37,6 +37,8 @@ void Pawn::deleteMoves(int playerNum){
 
 }
 
+//MOVE N NE E SE S SW W NW 
+//     0 1  2 3  4 5  6 7 
 void Pawn::setMoves(int playerNum){
     
     char** move = new char*[8];

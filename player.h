@@ -18,6 +18,7 @@ class Player{//extend peice class after
     int curRow;
     int nextCol;
     int nextRow;
+    bool inCheck;
     
 
     ~Player();
