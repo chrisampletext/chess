@@ -8,8 +8,8 @@ using namespace std;
 
 
 int main() {
-
-
+    int blackWin = 0;
+    int whiteWin = 0;
     Player *fp = new Player;
     Player *sp = new Player;
     fp->number = 1;
@@ -33,7 +33,10 @@ int main() {
         else if (s == "game"){
             cout << "BEGINNING GAME.... GOOD LUCK HAVE FUN" << endl;
             b->game(fp,sp);
-            break;
+            blackWin = b->blackWin;
+            whiteWin = b->whiteWin;
+            cout << blackWin << endl;
+            cout << whiteWin << endl;
         }
         else{
             cout << "INVALID COMMAND" << endl;

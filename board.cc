@@ -190,8 +190,15 @@ void Board::game(Player* fp,Player* sp){
 
     while (cin >> s){
         if (s == "resign"){
-            cout << "haha noob" << endl;
-            //end game and dispaly scores
+            if (whichTurn == 'w'){
+                cout << "BLACK WINS" << endl;
+                blackWin++;
+            }
+            else{
+                cout << "WHITE WINS" << endl;
+                whiteWin++;
+            }
+            cout << "Main Menu" << endl;
             return;
         }
         else if (s == "move"){
