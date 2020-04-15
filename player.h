@@ -5,6 +5,7 @@
 #include <vector>
 #include "piece.h"
 #include "pawn.h"
+#include "king.h"
 
 class Player{//extend peice class after
     public:
@@ -25,6 +26,7 @@ class Player{//extend peice class after
     void start();
     bool canMove();
     bool isSpotTaken(int,int);
+    bool isOpponentPieceHere(int,int);
     int getPiece();//gets index of peice at certain coordinate
     void move();
 

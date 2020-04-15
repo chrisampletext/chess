@@ -40,7 +40,7 @@ void Pawn::deleteMoves(int playerNum){
 //MOVE N NE E SE S SW W NW 
 //     0 1  2 3  4 5  6 7 
 void Pawn::setMoves(int playerNum){
-    
+    moves.clear();
     char** move = new char*[8];
     for(int x = 0; x<8; x++){
         move[x] = new char[8];
@@ -51,7 +51,9 @@ void Pawn::setMoves(int playerNum){
     //for first player
     if(playerNum == 1){
         //first move case 
+        //cout<<"pawn row: "<<row<<endl;
         if(row==1){ 
+            //cout<<"pawn row: "<<row<<endl;
             move[col][row+2] = 'm';
         }
         if(row + 1 <= 7){

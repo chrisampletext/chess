@@ -196,38 +196,51 @@ void Board::game(Player* fp,Player* sp){
         }
         else if (s == "move"){
             cout << "we movin" << endl;
-            while(true){
-                string initPos; //take in our two positions
-                string finalPos;
-                cin >> initPos;
-                cin >> finalPos;
-
-
+            
+            string initPos; //take in our two positions
+            string finalPos;
+            cin >> initPos;
+            cin >> finalPos;
+                /*this->curBoard[x2][y2] = this->curBoard[x1][y1]; //this is the swap.
+                this->curBoard[x1][y1] = '*';*/
+                
+            if (whichTurn == 'w'){
                 fp->curCol = initPos[0] - 97; //converting using ASCII
                 fp->curRow = abs(initPos[1] - 48 - 1 - 7); //subtract 1 to get arrary coords then subtract 7 to invert to correct space.
                 fp->nextCol = finalPos[0] - 97; 
                 fp->nextRow = abs(finalPos[1] - 48 - 1 - 7);
-                /*this->curBoard[x2][y2] = this->curBoard[x1][y1]; //this is the swap.
-                this->curBoard[x1][y1] = '*';*/
                 if(fp->canMove()){
-                    if (whichTurn == 'w'){
-                        whichTurn == 'b';
-                    }
-                    else{
-                        whichTurn =='w';
-                    }
                     fp->move();
                     this->move(fp,sp);
                     cout << this << endl; //output the board
-                    break;
+                    whichTurn = 'b';
                 }else{
                     cout << this << endl; //output the board
-                    cout << "INVALID COMMAND" << endl;
+                    cout << "INVALID COMMAND (still player1(w) turn)" << endl;
                 }
-                
-                
+                        
+            }else{
+                sp->curCol = initPos[0] - 97; //converting using ASCII
+                sp->curRow = abs(initPos[1] - 48 - 1 - 7); //subtract 1 to get arrary coords then subtract 7 to invert to correct space.
+                sp->nextCol = finalPos[0] - 97; 
+                sp->nextRow = abs(finalPos[1] - 48 - 1 - 7);
+                if(sp->canMove()){
+                    
+                    sp->move();
+                    this->move(fp,sp);
+                    cout << this << endl; //output the board
+                    whichTurn = 'w';
+                }else{
+                    cout << this << endl; //output the board
+                    cout << "INVALID COMMAND (still player2(b) turn)" << endl;
+                }
+                        
             }
+                    
         }
-        
+                
+                
+            
     }
+        
 }

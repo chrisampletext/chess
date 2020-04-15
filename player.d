@@ -1,1 +1,1 @@
-player.o: player.cc player.h piece.h pawn.h
+player.o: player.cc player.h piece.h pawn.h king.h

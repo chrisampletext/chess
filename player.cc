@@ -29,12 +29,15 @@ bool Player::canMove(){
     //change maybe for style
     //player selected blank tile
     int pieceIndex = getPiece();
+
+    cout<<"Piece: "<<getPiece()<<endl;
     if(pieceIndex==-1){
-        cout<<"erferf";
         return false;
     }
     Piece* movePiece = pieces[pieceIndex];
     if(number == 1){
+        cout<<"Col: "<<movePiece->col<<endl;
+        cout<<"Row: "<<movePiece->row<<endl;
         movePiece->setMoves(1);
     }
     if(number == 2){
@@ -47,27 +50,27 @@ bool Player::canMove(){
             //for player 1:
             if(number == 1){
                 //to go forward 
-                 
-                for(int y = curRow; y<curRow; y++){
+                //check forward
+                //for(int y = curRow; y<curRow; y++){implement
                     //if there is a piece on anyof these spots
                     //should do a check to see which direction
-                    if(this->isSpotTaken(curCol,y)){
+                    if(this->isSpotTaken(nextCol,nextRow)){
                        return false; 
                     }
-
-                }
+                //}
+             
                 return true;
             }
 
             if(number == 2){
                 //to go forward   
-                for(int y = curRow; y<curRow; y--){
+                //for(int y = curRow; y<curRow; y--){implment
                     //if there is a piece on anyof these spots
-                    if(this->isSpotTaken(curCol,y)){
+                    if(this->isSpotTaken(nextCol,nextRow)){
                        return false; 
                     }
 
-                }
+                //}
                 return true;
             }
         }       
@@ -86,7 +89,11 @@ bool Player::isSpotTaken(int x, int y){
             return true;
         }
     }
-        for(int i=0; i < opponent->pieces.size(); i++){
+    return false;
+}
+
+bool Player::isOpponentPieceHere(int x,int y){
+    for(int i=0; i < opponent->pieces.size(); i++){
         if(opponent->pieces[i]->col==x && opponent->pieces[i]->row==y){
             return true;
         }
@@ -109,7 +116,7 @@ void Player::move(){
     //if(this->canMove()){
     pieces[pieceIndex]->col=nextCol;
     pieces[pieceIndex]->row=nextRow;
-    cout<<"Piece: "<<getPiece()<<endl;
+    
     cout<<"col: "<<pieces[pieceIndex]->col<<endl;
     cout<<"row: "<<pieces[pieceIndex]->row<<endl;
     
@@ -124,7 +131,7 @@ void Player::start(){
         pieces.push_back(new Pawn(1, 0, 'p'));
         pieces.push_back(new Pawn(2, 0, 'p'));
         pieces.push_back(new Pawn(3, 0, 'p'));
-        pieces.push_back(new Pawn(4, 0, 'p'));
+        pieces.push_back(new King(4, 0, 'k'));
         pieces.push_back(new Pawn(5, 0, 'p'));
         pieces.push_back(new Pawn(6, 0, 'p'));
         pieces.push_back(new Pawn(7, 0, 'p'));
@@ -136,7 +143,7 @@ void Player::start(){
         pieces.push_back(new Pawn(1, 6, 'P'));
         pieces.push_back(new Pawn(2, 6, 'P'));
         pieces.push_back(new Pawn(3, 6, 'P'));
-        pieces.push_back(new Pawn(4, 6, 'P'));
+        pieces.push_back(new King(4, 6, 'K'));
         pieces.push_back(new Pawn(5, 6, 'P'));
         pieces.push_back(new Pawn(6, 6, 'P'));
         pieces.push_back(new Pawn(7, 6, 'P'));
