@@ -51,6 +51,8 @@ Board::Board(Player* fp,Player* sp){
         curBoard[x][6] = sp->pieces[x+8]->name;
         curBoard[x][7] = sp->pieces[x]->name;
     }
+    fp->inCheck = false;
+    sp->inCheck = false;
 }
 
 void Board::move(Player* fp,Player* sp){
@@ -71,6 +73,7 @@ void Board::move(Player* fp,Player* sp){
 
     }
 }
+
 
 bool Board::checkBoard(Board *board){
     //implement that neither king is already in check
@@ -121,19 +124,13 @@ bool Board::checkBoard(Board *board){
 
 
 void Board::setup(){
-    //work on this later
-    /*Upon completion of setup mode, you must verify that the board 
-    contains exactly one white king and exactly one black king; 
-    that no pawns are on the first or last row of the board; 
-    and that neither king is in check. 
-    The user cannot leave setup mode until these conditions are satisfied. 
-    We recommend doing setup mode early, as it may facilitate testing.
-    */
     string s;
     istringstream ss(s);
 
     while (cin >> s){
         if (s == "+"){ //add a piece
+
+        //add the piece to the players list of pieces 
             cin >> s;
             char c = s[0];
             cin >> s;
@@ -145,6 +142,8 @@ void Board::setup(){
 
         }
         else if (s == "-"){ //remove a piece
+
+        //remove the piece to the palyers list of pieces
             cin >> s;
             int x = s[0] - 97;
             int y = abs(s[1] - 48 - 1 - 7);
@@ -185,35 +184,92 @@ void Board::setup(){
 
 
 
-void Board::game(){
+void Board::game(Player* fp,Player* sp){
     string s;
     istringstream ss();
 
     while (cin >> s){
         if (s == "resign"){
-            cout << "haha noob" << endl;
-            //end game and dispaly scores
+            if (whichTurn == 'b'){
+                cout << "White wins!" << endl;
+                whiteWin++;
+            }
+            else{
+                cout << "Black wins!" << endl;
+                blackWin++;
+            }
             return;
         }
         else if (s == "move"){
-            cout << "we movin" << endl;
-
+            cout << "Player "<<whichTurn<<" Turn"<< endl;
+            
             string initPos; //take in our two positions
             string finalPos;
             cin >> initPos;
             cin >> finalPos;
+                /*this->curBoard[x2][y2] = this->curBoard[x1][y1]; //this is the swap.
+                this->curBoard[x1][y1] = '*';*/
+                
+            if (whichTurn == 'w'){
+                fp->curCol = initPos[0] - 97; //converting using ASCII
+                fp->curRow = abs(initPos[1] - 48 - 1 - 7); //subtract 1 to get arrary coords then subtract 7 to invert to correct space.
+                fp->nextCol = finalPos[0] - 97; 
+                fp->nextRow = abs(finalPos[1] - 48 - 1 - 7);
+                if(fp->canMove()){
+
+                    //check if the move was to the end of the board
+                    // if it was a pawn then promote
+                    // then run the following code on the newly constructed piece
 
 
-            int x1 = initPos[0] - 97; //converting using ASCII
-            int y1 = abs(initPos[1] - 48 - 1 - 7); //subtract 1 to get arrary coords then subtract 7 to invert to correct space.
-            int x2 = finalPos[0] - 97; 
-            int y2 = abs(finalPos[1] - 48 - 1 - 7);
-            this->curBoard[x2][y2] = this->curBoard[x1][y1]; //this is the swap.
-            this->curBoard[x1][y1] = '*';
-            cout << this << endl; //output the board
+
+                    //check if white is in check
+                    //if white is in check and the move does not get them away from check
+                    //cout Invalid move, White King is in check.
+                    // else execute the move
+                    fp->move();
+                    this->move(fp,sp);
+                    cout << this << endl; //output the board
+
+                    // check if it has put black in checkmate
+                    // if checkmate then output "Checkmate! White wins!"
+                    // whiteWin++
+                    // else check if has put black in check
+                    // if so then print "Black is in check."
+                    // otherwise just execute the move and print the board out
+                    whichTurn = 'b';
+
+
+                }
+                else{
+                    cout << this << endl; //output the board
+                    cout << "INVALID COMMAND (still player1(w) turn)" << endl;
+                }
+                        
+            }
+            else{
+                sp->curCol = initPos[0] - 97; //converting using ASCII
+                sp->curRow = abs(initPos[1] - 48 - 1 - 7); //subtract 1 to get arrary coords then subtract 7 to invert to correct space.
+                sp->nextCol = finalPos[0] - 97; 
+                sp->nextRow = abs(finalPos[1] - 48 - 1 - 7);
+                if(sp->canMove()){
+                    
+                    sp->move();
+                    this->move(fp,sp);
+                    cout << this << endl; //output the board
+                    whichTurn = 'w';
+                }
+                else{
+                    cout << this << endl; //output the board
+                    cout << "INVALID COMMAND (still player2(b) turn)" << endl;
+                }
+                        
+            }
+                    
         }
-        else{
-            cout << "INVALID COMMAND" << endl;
-        }
+                
+                
+            
     }
+        
 }
