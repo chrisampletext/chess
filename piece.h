@@ -16,7 +16,7 @@ private:
    // Board *board;
 
 public:
-    std::vector<char**> moves;
+    char** moves;
     int col;
     int row;
     char name;

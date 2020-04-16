@@ -195,7 +195,7 @@ void Board::game(Player* fp,Player* sp){
             return;
         }
         else if (s == "move"){
-            cout << "we movin" << endl;
+            cout << "Player "<<whichTurn<<" Turn"<< endl;
             
             string initPos; //take in our two positions
             string finalPos;

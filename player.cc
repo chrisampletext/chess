@@ -30,59 +30,43 @@ bool Player::canMove(){
     //player selected blank tile
     int pieceIndex = getPiece();
 
-    cout<<"Piece: "<<getPiece()<<endl;
+    //cout<<"Piece: "<<getPiece()<<endl;
     if(pieceIndex==-1){
         return false;
     }
     Piece* movePiece = pieces[pieceIndex];
+    
     if(number == 1){
-        cout<<"Col: "<<movePiece->col<<endl;
-        cout<<"Row: "<<movePiece->row<<endl;
+        
         movePiece->setMoves(1);
+        
     }
     if(number == 2){
         movePiece->setMoves(2);
+        
     }
-    for(int i=0; i<movePiece->moves.size(); i++){
-        char** temp =movePiece->moves[i];
+    if(movePiece->name=='n'||movePiece->name=='N'){
+        this->updateMovesKnight();
+    }else{
+    this->updateMoves();
+    }
+    cout<<"potential moves:"<<endl;
+    for(int y = 0; y<8; y++){
+        for(int x =0; x<8; x++){
+            cout<<movePiece->moves[x][y];
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+
+        char** temp = movePiece->moves;
         if(temp[nextCol][nextRow] == 'm'){
-            //cases for all 6 directions
-            //for player 1:
-            if(number == 1){
-                //to go forward 
-                //check forward
-                //for(int y = curRow; y<curRow; y++){implement
-                    //if there is a piece on anyof these spots
-                    //should do a check to see which direction
-                    if(this->isSpotTaken(nextCol,nextRow)){
-                       return false; 
-                    }
-                //}
-             
-                return true;
-            }
-
-            if(number == 2){
-                //to go forward   
-                //for(int y = curRow; y<curRow; y--){implment
-                    //if there is a piece on anyof these spots
-                    if(this->isSpotTaken(nextCol,nextRow)){
-                       return false; 
-                    }
-
-                //}
-                return true;
-            }
+            return true;
         }       
         return false;
-    }
-    
-    
-  
-    return false;
 }
 
-
+//checks if spot is taken
 bool Player::isSpotTaken(int x, int y){
       for(int i=0; i < pieces.size(); i++){
         if(pieces[i]->col==x && pieces[i]->row==y){
@@ -101,7 +85,133 @@ bool Player::isOpponentPieceHere(int x,int y){
     return false;
 }
 
+void Player::updateMovesKnight(){
+    Piece* movePiece = pieces[getPiece()];
+    int row =curRow;
+    int col =curCol;
+    if(row - 2 >= 0 && col + 1 <= 7 && !this->isSpotTaken(row-2,col+1)){
+        
+        movePiece->moves[col+1][row-2] = 'm';
+    }
+    if(row - 1 >= 0 && col + 2 <= 7&& !this->isSpotTaken(row-1,col+2)){
+        
+        movePiece->moves[col+2][row-1] = 'm';
+    }
+    if(row + 1 <= 7 && col + 2 <= 7&& !this->isSpotTaken(row+1,col+2)){
+        
+        movePiece->moves[col+2][row+1] = 'm';
+    }
+    if(row + 2 <= 7 && col + 1 <= 7&& !this->isSpotTaken(row+2,col+1)){
+        
+        movePiece->moves[col+1][row+2] = 'm';
+    }
+    if(row + 2 <= 7 && col - 1 >= 0&& !this->isSpotTaken(row+2,col-1)){
+        
+        movePiece->moves[col-1][row+2] = 'm';
+    }
+    if(row + 1 <= 7 && col - 2 >= 0&& !this->isSpotTaken(row+1,col-2)){
+        
+        movePiece->moves[col-2][row+1] = 'm';
+    }
+    if(row - 1 >=0 && col - 2 >= 0&& !this->isSpotTaken(row-1,col-2)){
+        
+        movePiece->moves[col-2][row-1] = 'm';
+    }
+    if(row - 2 >=0 && col - 1 >= 0&& !this->isSpotTaken(row-2,col-1)){
+        
+        movePiece->moves[col-1][row-2] = 'm';
+    }
+}
 
+void Player::updateMoves(){
+    Piece* movePiece = pieces[getPiece()];
+    //cout<<(movePiece->row>=0)<<endl;
+    //check north
+    for(int y = movePiece->row; y>= 0; y--){
+        //cout<<"weouewh"<<endl;
+        //cout<<movePiece->moves[movePiece->col][y]<<endl;
+        if(movePiece->moves[movePiece->col][y]=='m'&& (this->isSpotTaken(movePiece->col,y)|| this->isOpponentPieceHere(movePiece->col,y))){
+            for(int delY = y; delY>= 0; delY--){
+               movePiece->moves[movePiece->col][delY] = '*'; 
+            }
+            break;
+        }
+    }
+    //check northeast
+    for(int x=movePiece->col, y = movePiece->row; y>= 0 && x <= 7; y--, x++){
+        //cout<<movePiece->moves[movePiece->col][y]<<endl;
+        if(movePiece->moves[x][y]=='m'&& (this->isSpotTaken(x,y)|| this->isOpponentPieceHere(x,y))){
+            for(int delX=x,delY = y; delY>= 0 && delX <=7; delY--,delX++){
+               movePiece->moves[delX][delY] = '*'; 
+            }
+            break;
+        }
+    }
+    //check east
+    for(int x = movePiece->col; x<= 7; x++){
+        //cout<<"weouewh"<<endl;
+        //cout<<movePiece->moves[movePiece->col][y]<<endl;
+        if(movePiece->moves[x][movePiece->row]=='m'&& (this->isSpotTaken(x,movePiece->row)|| this->isOpponentPieceHere(x,movePiece->row))){
+            for(int delX = x; delX<= 7; delX++){
+               movePiece->moves[delX][movePiece->row] = '*'; 
+            }
+            break;
+        }
+    }
+    //check southeast
+    for(int x=movePiece->col, y = movePiece->row; y<=7 && x <= 7; y++, x++){
+        //cout<<movePiece->moves[movePiece->col][y]<<endl;
+        if(movePiece->moves[x][y]=='m'&& (this->isSpotTaken(x,y)|| this->isOpponentPieceHere(x,y))){
+            for(int delX=x,delY = y; delY<= 7 && delX <=7; delY++,delX++){
+               movePiece->moves[delX][delY] = '*'; 
+            }
+            break;
+        }
+    }
+    //check south
+    for(int y = movePiece->row; y<= 7; y++){
+        //cout<<"weouewh"<<endl;
+        //cout<<movePiece->moves[movePiece->col][y]<<endl;
+        if(movePiece->moves[movePiece->col][y]=='m'&& (this->isSpotTaken(movePiece->col,y)|| this->isOpponentPieceHere(movePiece->col,y))){
+            for(int delY = y; delY <=7; delY++){
+               movePiece->moves[movePiece->col][delY] = '*'; 
+            }
+            break;
+        }
+    }
+    //check southwest
+    for(int x=movePiece->col, y = movePiece->row; y<=7 && x >=0; y++, x--){
+        //cout<<movePiece->moves[movePiece->col][y]<<endl;
+        if(movePiece->moves[x][y]=='m'&& (this->isSpotTaken(x,y)|| this->isOpponentPieceHere(x,y))){
+            for(int delX=x,delY = y; delY<= 7 && delX >=0; delY++,delX--){
+               movePiece->moves[delX][delY] = '*'; 
+            }
+            break;
+        }
+    }
+
+    //check west
+    for(int x = movePiece->col; x>= 0; x--){
+        //cout<<"weouewh"<<endl;
+        //cout<<movePiece->moves[movePiece->col][y]<<endl;
+        if(movePiece->moves[x][movePiece->row]=='m'&& (this->isSpotTaken(x,movePiece->row)|| this->isOpponentPieceHere(x,movePiece->row))){
+            for(int delX = x; delX>= 0; delX--){
+               movePiece->moves[delX][movePiece->row] = '*'; 
+            }
+            break;
+        }
+    }
+    //check northwest
+    for(int x=movePiece->col, y = movePiece->row; y>= 0 && x>=0; y--, x--){
+        //cout<<movePiece->moves[movePiece->col][y]<<endl;
+        if(movePiece->moves[x][y]=='m'&& (this->isSpotTaken(x,y)|| this->isOpponentPieceHere(x,y))){
+            for(int delX=x,delY = y; delY>= 0 && delX >=0; delY--,delX--){
+               movePiece->moves[delX][delY] = '*'; 
+            }
+            break;
+        }
+    }
+}
 
 void Player::move(){
     //change to peice
@@ -110,15 +220,15 @@ void Player::move(){
     Piece* movePiece = pieces[pieceIndex];
     //cout<<movePiece->col<<" "<<movePiece->row<<endl;
     //test case
-    cout <<"player "<<number<<endl;
+    //cout <<"player "<<number<<endl;
     //cout <<movePiece->pieceCanMove(nextCol,nextRow,number)<<endl;
     //cout <<!(this->isSpotTaken())<<endl;
     //if(this->canMove()){
     pieces[pieceIndex]->col=nextCol;
     pieces[pieceIndex]->row=nextRow;
     
-    cout<<"col: "<<pieces[pieceIndex]->col<<endl;
-    cout<<"row: "<<pieces[pieceIndex]->row<<endl;
+    //cout<<"col: "<<pieces[pieceIndex]->col<<endl;
+    //cout<<"row: "<<pieces[pieceIndex]->row<<endl;
     
     //} 
 
@@ -127,28 +237,28 @@ void Player::move(){
 
 void Player::start(){
     if(number == 1){
-        pieces.push_back(new Pawn(0, 0, 'p'));
-        pieces.push_back(new Pawn(1, 0, 'p'));
-        pieces.push_back(new Pawn(2, 0, 'p'));
-        pieces.push_back(new Pawn(3, 0, 'p'));
+        pieces.push_back(new Rook(0, 0, 'r'));
+        pieces.push_back(new Knight(1, 0, 'n'));
+        pieces.push_back(new Bishop(2, 0, 'b'));
+        pieces.push_back(new Queen(3, 0, 'q'));
         pieces.push_back(new King(4, 0, 'k'));
-        pieces.push_back(new Pawn(5, 0, 'p'));
-        pieces.push_back(new Pawn(6, 0, 'p'));
-        pieces.push_back(new Pawn(7, 0, 'p'));
+        pieces.push_back(new Bishop(5, 0, 'b'));
+        pieces.push_back(new Knight(6, 0, 'n'));
+        pieces.push_back(new Rook(7, 0, 'r'));
             for(int x =0; x<8; x++){
                 pieces.push_back(new Pawn(x, 1, 'p'));
             }
     }else if(number == 2){
-        pieces.push_back(new Pawn(0, 6, 'P'));
-        pieces.push_back(new Pawn(1, 6, 'P'));
-        pieces.push_back(new Pawn(2, 6, 'P'));
-        pieces.push_back(new Pawn(3, 6, 'P'));
-        pieces.push_back(new King(4, 6, 'K'));
-        pieces.push_back(new Pawn(5, 6, 'P'));
-        pieces.push_back(new Pawn(6, 6, 'P'));
-        pieces.push_back(new Pawn(7, 6, 'P'));
+        pieces.push_back(new Rook(0, 7, 'R'));
+        pieces.push_back(new Knight(1, 7, 'N'));
+        pieces.push_back(new Bishop(2, 7, 'B'));
+        pieces.push_back(new King(3, 7, 'K'));
+        pieces.push_back(new Queen(4, 7, 'Q'));
+        pieces.push_back(new Bishop(5, 7, 'B'));
+        pieces.push_back(new Knight(6, 7, 'N'));
+        pieces.push_back(new Rook(7, 7, 'R'));
             for(int x =0; x<8; x++){
-                pieces.push_back(new Pawn(x, 7, 'P'));
+                pieces.push_back(new Pawn(x, 6, 'P'));
             } 
     }
     
