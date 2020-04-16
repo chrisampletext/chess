@@ -11,11 +11,17 @@ class Board{//extend peice class after
     //change to peice type
     //board is [x][y]
     Board(Player* fp,Player* sp);
-    
+    int whiteWin;
+    int blackWin;
+    char whichTurn;
     char**curBoard;
     //first player second player
-    
+
     void move(Player* fp,Player* sp);
+    void setup(); //setup mode
+    void game(Player* fp,Player* sp); //the ingame
+    bool checkBoard(Board *board); //checks if the board during setup is valid.
+    
     ~Board();
     
     

@@ -1,13 +1,13 @@
-#ifndef __PAWN_H__
-#define __PAWN_H__
+#ifndef __BISHOP_H__
+#define __BISHOP_H__
 #include <string>
 #include "piece.h"
 
-class Pawn: public Piece{
+class Bishop: public Piece{
 
 public:
-    ~Pawn();
-    Pawn(int x, int y , char c);
+    ~Bishop();
+    Bishop(int x, int y , char c);
 
    
     void setMoves(int playerNum);
