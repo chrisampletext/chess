@@ -247,7 +247,7 @@ void Player::updateMovesPawn(){
     Piece* movePiece = pieces[getPiece()];
     int row =curRow;
     int col =curCol;
-    if(number == 1){
+    if(number == 2){
         if(row + 1 <= 7 && col - 1 >= 0 && this->isOpponentPieceHere(col-1,row+1)){
             movePiece->moves[col-1][row+1] = 'k';
         }
@@ -531,7 +531,7 @@ void Player::move(){
 
 
 void Player::start(){
-    if(number == 1){
+    if(number == 2){
         pieces.push_back(new Rook(0, 0, 'r'));
         pieces.push_back(new Knight(1, 0, 'n'));
         pieces.push_back(new Bishop(2, 0, 'b'));
@@ -543,7 +543,7 @@ void Player::start(){
             for(int x =0; x<8; x++){
                 pieces.push_back(new Pawn(x, 1, 'p'));
             }
-    }else if(number == 2){
+    }else if(number == 1){
         pieces.push_back(new Rook(0, 7, 'R'));
         pieces.push_back(new Knight(1, 7, 'N'));
         pieces.push_back(new Bishop(2, 7, 'B'));

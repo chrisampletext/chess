@@ -1,3 +1,4 @@
+setup = black done
 game human human
 move a7 a5
 move d2 d4

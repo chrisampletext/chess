@@ -48,7 +48,7 @@ void Pawn::setMoves(int playerNum){
         }
     }    
     //for first player
-    if(playerNum == 1){
+    if(playerNum == 2){
         //first move case 
         //cout<<"pawn row: "<<row<<endl;
         if(row==1){ 
@@ -59,7 +59,7 @@ void Pawn::setMoves(int playerNum){
             moves[col][row+1] = 'm';
         }
     }
-    else if(playerNum == 2){
+    else if(playerNum == 1){
         //first move case  
         if(row==6){ 
             moves[col][row-2] = 'm';
