@@ -1,1 +1,2 @@
-main.o: main.cc board.h player.h piece.h pawn.h
+main.o: main.cc board.h player.h piece.h pawn.h king.h rook.h bishop.h \
+ knight.h queen.h

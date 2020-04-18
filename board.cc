@@ -55,6 +55,7 @@ std::string Board::checkString(const std::string &s){
 }
 
 
+
 //to start
 Board::Board(Player* fp,Player* sp){
     curBoard = new char*[8];
@@ -74,8 +75,7 @@ Board::Board(Player* fp,Player* sp){
         curBoard[x][6] = sp->pieces[x+8]->name;
         curBoard[x][7] = sp->pieces[x]->name;
     }
-    fp->inCheck = false;
-    sp->inCheck = false;
+ 
 }
 
 void Board::move(Player* fp,Player* sp){
@@ -153,6 +153,7 @@ void Board::setup(){
     while (cin >> s){
         s = checkString(s);
         if (s == "+"){ //add a piece
+
         //add the piece to the players list of pieces 
             cin >> s;
             char c = s[0];
@@ -179,6 +180,7 @@ void Board::setup(){
         
         else if (s == "="){//change who starts the game
             cin >> s;
+            s = checkString(s);
             if (s != "white" && s != "black"){
                 cout << "Invalid choice. " "Please enter one of: \"black\" or \"white\"" << endl;
             }
@@ -225,6 +227,7 @@ void Board::game(Player* fp,Player* sp){
             return;
         }
         else if (s == "move"){
+            
             cout << "Player "<<whichTurn<<" Turn"<< endl;
             
             string initPos; //take in our two positions
@@ -254,6 +257,13 @@ void Board::game(Player* fp,Player* sp){
                     fp->move();
                     this->move(fp,sp);
                     cout << this << endl; //output the board
+                    if(fp->isCheck()){
+                        if(fp->isCheckMate()){
+                            cout<<"checkmate"<<endl;
+                        }else{
+                            cout<<"check"<<endl;
+                        }
+                    }  
 
                     // check if it has put black in checkmate
                     // if checkmate then output "Checkmate! White wins!"
@@ -261,6 +271,7 @@ void Board::game(Player* fp,Player* sp){
                     // else check if has put black in check
                     // if so then print "Black is in check."
                     // otherwise just execute the move and print the board out
+                    //cout<<"hello";
                     whichTurn = 'b';
 
 
@@ -282,8 +293,14 @@ void Board::game(Player* fp,Player* sp){
                     this->move(fp,sp);
                     cout << this << endl; //output the board
                     whichTurn = 'w';
-                }
-                else{
+                    if(sp->isCheck()){
+                        if(sp->isCheckMate()){
+                            cout<<"checkmate"<<endl;
+                        }else{
+                            cout<<"check"<<endl;
+                        }
+                    }   
+                }else{
                     cout << this << endl; //output the board
                     cout << "INVALID COMMAND (still player2(b) turn)" << endl;
                 }

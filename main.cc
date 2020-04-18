@@ -11,14 +11,14 @@ int main() {
 
     int whiteWin = 0;
     int blackWin = 0;
-    Player *fp = new Player;
-    Player *sp = new Player;
-    fp->number = 1;
-    sp->number = 2;
+    Player *fp = new Player(1);
+    Player *sp = new Player(2);
     fp->start();
     sp->start();
     fp->opponent = sp;
     sp ->opponent = fp;
+    fp->opponent->opponent = fp;
+    sp->opponent->opponent = sp;
     Board *b = new Board(fp,sp);
 
     string s;
