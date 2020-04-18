@@ -32,6 +32,29 @@ Board::~Board(){
     delete[] curBoard;
 }
 
+
+std::string Board::checkString(const std::string &s){
+    string loFiles[12] = { "move.txt", "game.txt", "setup.txt", "done.txt", "human.txt",
+    "black.txt", "white.txt", "resign.txt", "computer[1].txt", "computer[2].txt",
+    "computer[3].txt", "computer[4].txt" };
+    for (int i = 0; i < 12; i++){
+        ifstream file(loFiles[i]);
+        string curWord;
+        string potWord;
+        file >> potWord;
+        while(file >> curWord){
+            if (curWord == s){
+                file.close();
+                return potWord;
+            
+            }
+        }
+        file.close();
+    }
+    return s;
+}
+
+
 //to start
 Board::Board(Player* fp,Player* sp){
     curBoard = new char*[8];
@@ -128,8 +151,8 @@ void Board::setup(){
     istringstream ss(s);
 
     while (cin >> s){
+        s = checkString(s);
         if (s == "+"){ //add a piece
-
         //add the piece to the players list of pieces 
             cin >> s;
             char c = s[0];
@@ -189,6 +212,7 @@ void Board::game(Player* fp,Player* sp){
     istringstream ss();
 
     while (cin >> s){
+        s = checkString(s);
         if (s == "resign"){
             if (whichTurn == 'b'){
                 cout << "White wins!" << endl;

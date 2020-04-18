@@ -19,9 +19,9 @@ class Board{//extend peice class after
 
     void move(Player* fp,Player* sp);
     void setup(); //setup mode
-    void game(); //the ingame
+    void game(Player* fp,Player* sp); //the ingame
     bool checkBoard(Board *board); //checks if the board during setup is valid.
-    
+    std::string checkString(const std::string &s);
     ~Board();
     
     
