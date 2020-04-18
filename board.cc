@@ -51,8 +51,7 @@ Board::Board(Player* fp,Player* sp){
         curBoard[x][6] = sp->pieces[x+8]->name;
         curBoard[x][7] = sp->pieces[x]->name;
     }
-    fp->inCheck = false;
-    sp->inCheck = false;
+ 
 }
 
 void Board::move(Player* fp,Player* sp){
@@ -190,11 +189,18 @@ void Board::game(Player* fp,Player* sp){
 
     while (cin >> s){
         if (s == "resign"){
-            cout << "haha noob" << endl;
-            //end game and dispaly scores
+            if (whichTurn == 'b'){
+                cout << "White wins!" << endl;
+                whiteWin++;
+            }
+            else{
+                cout << "Black wins!" << endl;
+                blackWin++;
+            }
             return;
         }
         else if (s == "move"){
+            
             cout << "Player "<<whichTurn<<" Turn"<< endl;
             
             string initPos; //take in our two positions
@@ -210,16 +216,46 @@ void Board::game(Player* fp,Player* sp){
                 fp->nextCol = finalPos[0] - 97; 
                 fp->nextRow = abs(finalPos[1] - 48 - 1 - 7);
                 if(fp->canMove()){
+
+                    //check if the move was to the end of the board
+                    // if it was a pawn then promote
+                    // then run the following code on the newly constructed piece
+
+
+
+                    //check if white is in check
+                    //if white is in check and the move does not get them away from check
+                    //cout Invalid move, White King is in check.
+                    // else execute the move
                     fp->move();
                     this->move(fp,sp);
                     cout << this << endl; //output the board
+                    if(fp->isCheck()){
+                        if(fp->isCheckMate()){
+                            cout<<"checkmate"<<endl;
+                        }else{
+                            cout<<"check"<<endl;
+                        }
+                    }  
+
+                    // check if it has put black in checkmate
+                    // if checkmate then output "Checkmate! White wins!"
+                    // whiteWin++
+                    // else check if has put black in check
+                    // if so then print "Black is in check."
+                    // otherwise just execute the move and print the board out
+                    //cout<<"hello";
                     whichTurn = 'b';
-                }else{
+
+
+                }
+                else{
                     cout << this << endl; //output the board
                     cout << "INVALID COMMAND (still player1(w) turn)" << endl;
                 }
                         
-            }else{
+            }
+            else{
                 sp->curCol = initPos[0] - 97; //converting using ASCII
                 sp->curRow = abs(initPos[1] - 48 - 1 - 7); //subtract 1 to get arrary coords then subtract 7 to invert to correct space.
                 sp->nextCol = finalPos[0] - 97; 
@@ -230,6 +266,13 @@ void Board::game(Player* fp,Player* sp){
                     this->move(fp,sp);
                     cout << this << endl; //output the board
                     whichTurn = 'w';
+                    if(sp->isCheck()){
+                        if(sp->isCheckMate()){
+                            cout<<"checkmate"<<endl;
+                        }else{
+                            cout<<"check"<<endl;
+                        }
+                    }   
                 }else{
                     cout << this << endl; //output the board
                     cout << "INVALID COMMAND (still player2(b) turn)" << endl;

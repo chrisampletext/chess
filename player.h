@@ -23,7 +23,7 @@ class Player{//extend peice class after
     int curRow;
     int nextCol;
     int nextRow;
-    bool inCheck;
+    //bool inCheck;
     
 
     ~Player();
@@ -32,9 +32,19 @@ class Player{//extend peice class after
     bool isSpotTaken(int,int);
     bool isOpponentPieceHere(int,int);
     int getPiece();//gets index of peice at certain coordinate
+    int getKing();//gets index of king
+    int getOpponentPiece(int,int);
     void move();
     void updateMoves();
     void updateMovesKnight();
+    void updateMovesPawn();
+    //if you have checked your opponent
+    bool isCheck();
+    bool isCheckMate();
+    Player(int); 
+ 
+    Player(const Player *&&p2); 
+    
 
 };
 
