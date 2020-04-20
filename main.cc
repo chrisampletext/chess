@@ -27,7 +27,7 @@ int main() {
         s = b->checkString(s);
         if (s == "setup"){
             cout << "SETUP MODE" << endl;
-            b->setup();
+            b->setup(fp,sp);
         }
         else if (s == "game"){
 
@@ -71,10 +71,17 @@ int main() {
                     }
                 }
                 cout << "Beginning the game... good luck have fun!!" << endl;
+              
                 b->game(fp,sp);
                 whiteWin = b->whiteWin;
                 blackWin = b->blackWin;
-                //reset the players boards below
+              
+                fp->restart();
+                sp->restart();
+                b->reset(fp,sp);
+                
+                
+
             }
             else{
                 cout << "Invalid Command" <<endl;

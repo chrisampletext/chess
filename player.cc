@@ -126,6 +126,11 @@ bool Player::isCheckMate(){
     return true;
 
 }
+
+/*bool Player::isStaleMate(){
+
+}*/
+
 bool Player::isCheck(){
     //opponents king
     Piece* king = opponent->pieces[opponent->getKing()];
@@ -184,6 +189,10 @@ bool Player::canMove(){
     int pieceIndex = getPiece();
 
     //cout<<"Piece: "<<getPiece()<<endl;
+
+ 
+    
+    
     if(pieceIndex==-1){
         
         return false;
@@ -221,6 +230,29 @@ bool Player::canMove(){
             opponent->pieces.erase(opponent->pieces.begin()+getOpponentPiece(nextCol,nextRow));
             return true;
         }
+
+
+        //havent tested
+        /*Player* currentPlayerState = new Player(this->opponent);
+        Player* currentOppPlayerState = new Player(this);
+        currentOppPlayerState->opponent=currentPlayerState;
+        currentPlayerState->opponent=currentOppPlayerState;
+        currentOppPlayerState->curCol=currentOppPlayerState->pieces[i]->col;
+        currentOppPlayerState->curRow=currentOppPlayerState->pieces[i]->row;
+        currentOppPlayerState->nextCol=x;
+        currentOppPlayerState->nextRow=y;
+                        
+        currentOppPlayerState->move();
+                        
+        if(currentPlayerState->isCheck()){
+                //something getting modified
+            return false;
+        }*/
+        
+
+
+
+
         return false;
 }
 
@@ -519,9 +551,50 @@ void Player::move(){
     //cout <<movePiece->pieceCanMove(nextCol,nextRow,number)<<endl;
     //cout <<!(this->isSpotTaken())<<endl;
     //if(this->canMove()){
+    
+    if((movePiece->name=='p'|| movePiece->name=='P')&&(nextRow == 0 || nextRow==8) ){
+        delete movePiece;
+        char s;
+        while(cin>>s){
+            if(number==2){
+                if(s=='n'){
+                    movePiece =new Knight(nextCol, nextRow, 'n');
+                    break;
+                }else if(s=='q'){
+                    movePiece =new Queen(nextCol, nextRow, 'q');
+                    break;
+                }else if(s=='b'){
+                    movePiece =new Bishop(nextCol, nextRow, 'b');
+                    break;
+                }else if(s=='r'){
+                    movePiece =new Rook(nextCol, nextRow, 'r');
+                    break;
+                }else{
+                    cout<<"wrong"<<endl;
+                }
+            }
+            if(number==1){
+                if(s=='N'){
+                    movePiece =new Knight(nextCol, nextRow, 'N');
+                    break;
+                }else if(s=='Q'){
+                    movePiece =new Queen(nextCol, nextRow, 'Q');
+                    break;
+                }else if(s=='B'){
+                    movePiece =new Bishop(nextCol, nextRow, 'B');
+                    break;
+                }else if(s=='R'){
+                    movePiece =new Rook(nextCol, nextRow, 'R');
+                    break;
+                }else{
+                    cout<<"wrong"<<endl;
+                }
+            }
+        }
+
+    }
     pieces[pieceIndex]->col=nextCol;
     pieces[pieceIndex]->row=nextRow;
-    
     //cout<<"col: "<<pieces[pieceIndex]->col<<endl;
     //cout<<"row: "<<pieces[pieceIndex]->row<<endl;
     
@@ -531,6 +604,37 @@ void Player::move(){
 
 
 void Player::start(){
+    if(number == 2){
+        pieces.push_back(new Rook(0, 0, 'r'));
+        pieces.push_back(new Knight(1, 0, 'n'));
+        pieces.push_back(new Bishop(2, 0, 'b'));
+        pieces.push_back(new Queen(3, 0, 'q'));
+        pieces.push_back(new King(4, 0, 'k'));
+        pieces.push_back(new Bishop(5, 0, 'b'));
+        pieces.push_back(new Knight(6, 0, 'n'));
+        pieces.push_back(new Rook(7, 0, 'r'));
+            for(int x =0; x<8; x++){
+                pieces.push_back(new Pawn(x, 1, 'p'));
+            }
+    }else if(number == 1){
+        pieces.push_back(new Rook(0, 7, 'R'));
+        pieces.push_back(new Knight(1, 7, 'N'));
+        pieces.push_back(new Bishop(2, 7, 'B'));
+        pieces.push_back(new King(3, 7, 'K'));
+        pieces.push_back(new Queen(4, 7, 'Q'));
+        pieces.push_back(new Bishop(5, 7, 'B'));
+        pieces.push_back(new Knight(6, 7, 'N'));
+        pieces.push_back(new Rook(7, 7, 'R'));
+            for(int x =0; x<8; x++){
+                pieces.push_back(new Pawn(x, 6, 'P'));
+            } 
+    }
+    
+}
+
+
+void Player::restart(){
+    pieces.clear();
     if(number == 2){
         pieces.push_back(new Rook(0, 0, 'r'));
         pieces.push_back(new Knight(1, 0, 'n'));

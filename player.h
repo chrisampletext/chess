@@ -28,6 +28,7 @@ class Player{//extend peice class after
 
     ~Player();
     void start();
+    void restart();
     bool canMove();
     bool isSpotTaken(int,int);
     bool isOpponentPieceHere(int,int);

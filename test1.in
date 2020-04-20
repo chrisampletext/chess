@@ -19,3 +19,5 @@ move a1 a2
 move h6 d6
 move a2 a1
 move d6 d2
+move e1 d1
+move d2 d1

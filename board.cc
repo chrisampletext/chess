@@ -55,7 +55,20 @@ std::string Board::checkString(const std::string &s){
 }
 
 
-
+void Board::reset(Player* fp,Player* sp){
+        for(int x = 0; x<8; x++){
+        for(int y =0; y<8; y++){
+            curBoard[x][y]='*';
+        }
+    }
+    //set first and second
+    for (int x=0;x<8;x++){
+        curBoard[x][0] = sp->pieces[x]->name;
+        curBoard[x][1] = sp->pieces[x+8]->name;
+        curBoard[x][6] = fp->pieces[x+8]->name;
+        curBoard[x][7] = fp->pieces[x]->name;
+    }
+}
 //to start
 Board::Board(Player* fp,Player* sp){
     curBoard = new char*[8];
@@ -70,12 +83,12 @@ Board::Board(Player* fp,Player* sp){
     }
     //set first and second
     for (int x=0;x<8;x++){
-        curBoard[x][0] = fp->pieces[x]->name;
-        curBoard[x][1] = fp->pieces[x+8]->name;
-        curBoard[x][6] = sp->pieces[x+8]->name;
-        curBoard[x][7] = sp->pieces[x]->name;
+        curBoard[x][0] = sp->pieces[x]->name;
+        curBoard[x][1] = sp->pieces[x+8]->name;
+        curBoard[x][6] = fp->pieces[x+8]->name;
+        curBoard[x][7] = fp->pieces[x]->name;
     }
- 
+    
 }
 
 void Board::move(Player* fp,Player* sp){
@@ -97,26 +110,20 @@ void Board::move(Player* fp,Player* sp){
     }
 }
 
-
 bool Board::checkBoard(Board *board){
     //implement that neither king is already in check
     int whiteKingCount = 0;
     int blackKingCount = 0;
     int y = 0;
-    for (int x = 1; x < 7; ++x){
-        if (board->curBoard[x][y] == 'k'){
-            blackKingCount++;
-        }
-        else if (board->curBoard[x][y] == 'K'){
-            whiteKingCount++;
-        }
-        else if (board->curBoard[x][y] == 'p' || board->curBoard[x][y] == 'P'){
+    for (int x =0; x < 8; ++x){
+        if (board->curBoard[x][y] == 'p' || board->curBoard[x][y] == 'P'){
+            cout<<"x: "<<x<<" y: "<<y<<endl;
             return false;
         }
     }
 
-    for (y = 1; y < 7; ++y){
-        for (int x = 1; x < 7; ++x){
+    for (y = 0; y < 8; ++y){
+        for (int x = 0; x < 8; ++x){
             if (board->curBoard[x][y] == 'k'){
                 blackKingCount++;
             }
@@ -127,33 +134,30 @@ bool Board::checkBoard(Board *board){
     }
 
     y = 7;
-    for (int x = 1; x < 7; ++x){
-        if (board->curBoard[x][y] == 'k'){
-            blackKingCount++;
-        }
-        else if (board->curBoard[x][y] == 'K'){
-            whiteKingCount++;
-        }
-        else if (board->curBoard[x][y] == 'p' || board->curBoard[x][y] == 'P'){
+    for (int x = 0; x < 8; ++x){
+        if (board->curBoard[x][y] == 'p' || board->curBoard[x][y] == 'P'){
+            cout<<"x: "<<x<<" y: "<<y<<endl;
             return false;
         }
     }
 
     if (blackKingCount != 1 || whiteKingCount != 1){
+        cout<<blackKingCount<<endl;
+        cout<<whiteKingCount<<endl;
         return false;
     }
     return true;
 }
 
-
-void Board::setup(){
+void Board::setup(Player* fp,Player* sp){
+    
     string s;
     istringstream ss(s);
 
     while (cin >> s){
         s = checkString(s);
         if (s == "+"){ //add a piece
-
+    
         //add the piece to the players list of pieces 
             cin >> s;
             char c = s[0];
@@ -161,8 +165,29 @@ void Board::setup(){
             int x = s[0] - 97;
             int y = abs(s[1] - 48 - 1 - 7);
             this->curBoard[x][y] = c;
-
-            cout << this << endl;
+            cout<<this<<endl;
+            
+            if(c == 'r'){ 
+                fp->pieces.push_back(new Rook(x, y, 'r'));
+            }else if(c == 'R'){ 
+                sp->pieces.push_back(new Rook(x, y, 'R'));
+            }else if(c == 'n'){ 
+                fp->pieces.push_back(new Knight(x, y, 'n'));
+            }else if(c == 'N'){ 
+                sp->pieces.push_back(new Knight(x, y, 'N'));
+            }else if(c == 'k'){ 
+                fp->pieces.push_back(new King(x, y, 'k'));
+            }else if(c == 'K'){ 
+                sp->pieces.push_back(new King(x, y, 'K'));
+            }else if(c == 'q'){ 
+                fp->pieces.push_back(new Queen(x, y, 'q'));
+            }else if(c == 'Q'){ 
+                sp->pieces.push_back(new Queen(x, y, 'Q'));
+            }else if(c == 'p'){ 
+                fp->pieces.push_back(new Pawn(x, y, 'p'));
+            }else if(c == 'P'){ 
+                sp->pieces.push_back(new Pawn(x, y, 'P'));
+            }         
 
         }
         else if (s == "-"){ //remove a piece
@@ -171,10 +196,24 @@ void Board::setup(){
             cin >> s;
             int x = s[0] - 97;
             int y = abs(s[1] - 48 - 1 - 7);
+            int curCol = x;
+            int curRow = y;
+            
+            fp->curCol = x;
+            fp->curRow = y;
+            sp->curCol = x;
+            sp->curRow = y;
+            if(fp->getPiece() != -1){
+                fp->pieces.erase(fp->pieces.begin()+fp->getPiece());
+            }else if(sp->getPiece() != -1){
+                sp->pieces.erase(sp->pieces.begin()+sp->getPiece());
+            }
             if (this->curBoard[x][y] != '*'){
                 this->curBoard[x][y] = '*';
-                cout << this << endl;
+               
             }
+
+            cout << this << endl;
             
         }
         
@@ -196,6 +235,7 @@ void Board::setup(){
             }
             else{
                 cout << "MAIN MENU" << endl;
+            
             return;
             }
         }
@@ -206,10 +246,20 @@ void Board::setup(){
 }
 
 
-
-
-
 void Board::game(Player* fp,Player* sp){
+    cout<<this<<endl;
+      for(int i =0; i< fp->pieces.size(); i++){
+          cout<<fp->pieces[i]->col<<",";
+            cout<<fp->pieces[i]->row<<" "<<fp->pieces[i]->name<<endl;
+            
+        }
+        cout<<endl;
+        for(int i =0; i< sp->pieces.size(); i++){
+            cout<<sp->pieces[i]->col<<",";
+            cout<<sp->pieces[i]->row<<" "<<sp->pieces[i]->name<<endl;;
+            
+                
+        }
     string s;
     istringstream ss();
 
@@ -228,7 +278,7 @@ void Board::game(Player* fp,Player* sp){
         }
         else if (s == "move"){
             
-            cout << "Player "<<whichTurn<<" Turn"<< endl;
+            //cout << "Player "<<whichTurn<<" Turn"<< endl;
             
             string initPos; //take in our two positions
             string finalPos;
@@ -238,6 +288,7 @@ void Board::game(Player* fp,Player* sp){
                 this->curBoard[x1][y1] = '*';*/
                 
             if (whichTurn == 'w'){
+                char otherTurn = 'b';
                 fp->curCol = initPos[0] - 97; //converting using ASCII
                 fp->curRow = abs(initPos[1] - 48 - 1 - 7); //subtract 1 to get arrary coords then subtract 7 to invert to correct space.
                 fp->nextCol = finalPos[0] - 97; 
@@ -259,9 +310,11 @@ void Board::game(Player* fp,Player* sp){
                     cout << this << endl; //output the board
                     if(fp->isCheck()){
                         if(fp->isCheckMate()){
-                            cout<<"checkmate"<<endl;
+                            cout<<"checkmate "<<whichTurn<<" wins"<<endl;
+                            whiteWin++;
+                            return;
                         }else{
-                            cout<<"check"<<endl;
+                            cout<<otherTurn<<" is in check"<<endl;
                         }
                     }  
 
@@ -283,6 +336,7 @@ void Board::game(Player* fp,Player* sp){
                         
             }
             else{
+                char otherTurn = 'w';
                 sp->curCol = initPos[0] - 97; //converting using ASCII
                 sp->curRow = abs(initPos[1] - 48 - 1 - 7); //subtract 1 to get arrary coords then subtract 7 to invert to correct space.
                 sp->nextCol = finalPos[0] - 97; 
@@ -292,14 +346,17 @@ void Board::game(Player* fp,Player* sp){
                     sp->move();
                     this->move(fp,sp);
                     cout << this << endl; //output the board
-                    whichTurn = 'w';
+                    
                     if(sp->isCheck()){
                         if(sp->isCheckMate()){
-                            cout<<"checkmate"<<endl;
+                            cout<<"checkmate "<<whichTurn<<" wins"<<endl;
+                            blackWin++;
+                            return;
                         }else{
-                            cout<<"check"<<endl;
+                            cout<<otherTurn<<" is in check"<<endl;
                         }
                     }   
+                    whichTurn = 'w';
                 }else{
                     cout << this << endl; //output the board
                     cout << "INVALID COMMAND (still player2(b) turn)" << endl;

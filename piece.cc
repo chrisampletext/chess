@@ -22,6 +22,11 @@ Piece::Piece(int x, int y, char c){
 }
 
 Piece::~Piece(){
+       for(int i = 0; i < 8; ++i) {
+        delete[] moves[i];   
+    }
+    
+    delete[] moves;
 }
 /*
 void Piece::set(int x, int y){
