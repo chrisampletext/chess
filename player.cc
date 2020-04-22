@@ -165,12 +165,12 @@ void Player::botMove(int level){
                 cout << curCol << "," << curRow << "     " << nextCol << "," << nextRow << endl;
                 //check if its a valid move, if it is we can return it to the user
                 // otherwise we wll pick a new piece
-                /*if (canMove()){
+                if(canMove()){
                     //return the coords and then continue with the program
                     cout << "FINALLY FREEDOM" << endl;
                     cout << curCol << "," << curRow << "     " << nextCol << "," << nextRow << endl;
                     return;
-                }*/
+                }
             }
             return;
         }
@@ -290,25 +290,6 @@ bool Player::canMove(){
         }
 
 
-        //havent tested
-        Player* me = new Player(this);
-        Player* opp = new Player(this->opponent);
-        me->opponent=opp;
-        opp->opponent=me;
-        me->curCol=curCol;
-        me->curRow=curRow;
-        me->nextCol=nextCol;
-        me->nextRow=nextRow;
-                        
-        me->move();
-                        
-        if(opp->isCheck()){
-                //something getting modified
-            return false;
-        }
-        delete me;
-        delete opp;
-        
 
 
 
