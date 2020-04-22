@@ -85,20 +85,29 @@ Player::Player(const Player*&&p){
 bool Player::isCheckMate(){
     //try moving anything
     for(int i=0; i < opponent->pieces.size(); i++){
-    
+        
+              /*  cout<<"Piece: "<<opponent->pieces[i]->name<<endl;
+            for(int y = 0; y<8; y++){
+                for(int x =0; x<8; x++){
+                    cout<<opponent->pieces[i]->moves[x][y];
+                }
+                cout<<endl;
+            }
+            cout<<endl;           */
+
+
         for(int x = 0; x<8; x++){
             for(int y =0; y<8; y++){                
                 //reset might not work right
                 //constantly refresh
                 Player* currentPlayerState = new Player(this);
                 Player* currentOppPlayerState = new Player(this->opponent);
-                //cout<<"piece "<<currentPlayerState->pieces[0]->name<<endl;
+                //cout<<currentPlayerState->pieces[i]->name<<endl;
+                            
                 
                 //cout<<"currentOppPlayerState->getPiece() "<<currentOppPlayerState->getPiece()<<endl;
-
-                char logo =currentOppPlayerState->pieces[i]->moves[x][y];
-                
-                if(logo == 'k' || logo =='m'){            
+                //char logo =currentOppPlayerState->pieces[i]->moves[x][y];
+                //if(logo == 'k' || logo =='m'){            
                     //cout<<"size isCheckmate(pieces opponent has): "<<currentOppPlayerState->pieces.size()<<endl;       
                     currentOppPlayerState->opponent=currentPlayerState;
                     currentPlayerState->opponent=currentOppPlayerState;
@@ -118,7 +127,7 @@ bool Player::isCheckMate(){
                             return false;
                         }
                     }
-                }
+                //}
             }
         }
         
