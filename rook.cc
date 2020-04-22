@@ -1,17 +1,14 @@
-#include "king.h"
+#include "rook.h"
 #include <iostream>
 #include <sstream>
 using namespace std;
 
 
-King::King(int x, int y, char c): Piece(x, y, c) {}
-
-/*void Pawn::setGame(Board * b){
-    game = b;
-}*/
+Rook::Rook(int x, int y, char c): Piece(x, y, c) {}
 
 
-King::~King(){
+
+Rook::~Rook(){
 }
 
 //we need the current position (we have this)
@@ -33,13 +30,13 @@ King::~King(){
 
 
 
-void King::deleteMoves(int playerNum){
+void Rook::deleteMoves(int playerNum){
 
 }
 
 //MOVE N NE E SE S SW W NW 
 //     0 1  2 3  4 5  6 7 
-void King::setMoves(int playerNum){
+void Rook::setMoves(int playerNum){
   
     moves = new char*[8];
     for(int x = 0; x<8; x++){
@@ -50,43 +47,28 @@ void King::setMoves(int playerNum){
     
     }    
 
-
-    //n
-    if(row - 1 >= 0){
-        moves[col][row-1] = 'm';
+     //n
+    for(int i =row -1; i>=0; i--){
+        moves[col][i] = 'm';
     }
-    //ne
-    if(row - 1 >= 0 && col + 1 <= 7){
-        
-        moves[col+1][row-1] = 'm';
-    }
+ 
     //e
-    if(col + 1 <= 7){
-        moves[col+1][row] = 'm';
+    for(int i =col + 1; i<=7; i++){
+        
+        moves[i][row] = 'm';
     }
-    //se
-    if(row + 1 <= 7 && col + 1 <=7){
-        moves[col+1][row+1] = 'm';
+    //s
+    for(int i =row + 1; i<=7; i++){
+        moves[col][i] = 'm';
     }
-    //s      
-    if(row + 1 <= 7){
-        moves[col][row+1] = 'm';
-    }
-    //sw
-    if(row + 1 <= 7 && col - 1 >= 0){
-        moves[col-1][row+1] = 'm';
-    }
+
     //w
-    if(col - 1 >= 0){
-        moves[col-1][row] = 'm';
-    }
-    //nw
-    if(row-1 >=0 && col - 1 >= 0){
-        moves[col-1][row-1] = 'm';
+    for(int i =col - 1; i>=0; i--){
+        moves[i][row] = 'm';
     }
 
         
-    
+
     //if able to kill
     //constant M represent move
     //constant K represent kill

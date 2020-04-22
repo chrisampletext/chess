@@ -18,10 +18,11 @@ class Board{//extend peice class after
     //first player second player
 
     void move(Player* fp,Player* sp);
-    void setup(); //setup mode
+    void setup(Player* fp,Player* sp); //setup mode
     void game(Player* fp,Player* sp); //the ingame
+    void reset(Player* fp,Player* sp);
     bool checkBoard(Board *board); //checks if the board during setup is valid.
-    
+    std::string checkString(const std::string &s);    
     ~Board();
     
     
