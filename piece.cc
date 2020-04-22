@@ -1,5 +1,4 @@
 #include "piece.h"
-#include "board.h"
 #include <iostream>
 #include <sstream>
 
@@ -7,9 +6,9 @@
 using namespace std;
 
 
-Piece::Piece(char c, int x, int y, Board *board){
+Piece::Piece(int x, int y, char c){
     if (c == ' '){
-        type = "none"
+        type = "none";
     }
     else if (c == 'P' || c == 'R' || c == 'Q' || c == 'K' || c == 'N' || c == 'B'){
         type = "white";
@@ -18,31 +17,33 @@ Piece::Piece(char c, int x, int y, Board *board){
         type = "black";
     }
     name = c;
-    board = board;
-    row = x;
-    col = y;
+    col = x;
+    row = y;
 }
 
 Piece::~Piece(){
+       for(int i = 0; i < 8; ++i) {
+        delete[] moves[i];   
+    }
+    
+    delete[] moves;
 }
-
+/*
 void Piece::set(int x, int y){
     row = x;
     col = y;
 }
+*/
 
-int Piece::getCol(){
-    return col;
+
+void Piece::setMoves(int playerNum){
+
 }
 
-int Piece::getRow(){
-    return row;
-}
-
-string Piece::getPlayer(){
-    return type;
-}
-
-bool Piece::canMove(){
+void Piece::deleteMoves(int playerNum){
     
 }
+
+/*void setGame(){
+
+}*/

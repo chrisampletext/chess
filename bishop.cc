@@ -1,17 +1,14 @@
-#include "pawn.h"
+#include "bishop.h"
 #include <iostream>
 #include <sstream>
 using namespace std;
 
 
-Pawn::Pawn(int x, int y, char c): Piece(x, y, c) {}
-
-/*void Pawn::setGame(Board * b){
-    game = b;
-}*/
+Bishop::Bishop(int x, int y, char c): Piece(x, y, c) {}
 
 
-Pawn::~Pawn(){
+
+Bishop::~Bishop(){
 }
 
 //we need the current position (we have this)
@@ -33,44 +30,44 @@ Pawn::~Pawn(){
 
 
 
-void Pawn::deleteMoves(int playerNum){
+void Bishop::deleteMoves(int playerNum){
 
 }
 
 //MOVE N NE E SE S SW W NW 
 //     0 1  2 3  4 5  6 7 
-void Pawn::setMoves(int playerNum){
+void Bishop::setMoves(int playerNum){
+  
     moves = new char*[8];
     for(int x = 0; x<8; x++){
         moves[x] = new char[8];
         for(int y =0; y<8; y++){
             moves[x][y]='*';
         }
+    
     }    
-    //for first player
-    if(playerNum == 2){
-        //first move case 
-        //cout<<"pawn row: "<<row<<endl;
-        if(row==1){ 
-            //cout<<"pawn row: "<<row<<endl;
-            moves[col][row+2] = 'm';
-        }
-        if(row + 1 <= 7){
-            moves[col][row+1] = 'm';
-        }
-    }
-    else if(playerNum == 1){
-        //first move case  
-        if(row==6){ 
-            moves[col][row-2] = 'm';
-        }
-        if(row - 1 >= 0){
-            moves[col][row-1] = 'm';
-        }
-    }
-    
 
-    
+     //ne
+    for(int x=col+1, y=row-1; x<=7 && y>=0; x++,y--){
+        moves[x][y] = 'm';
+    }
+ 
+    //se
+    for(int x=col+1, y=row+1; x<=7 && y<=7; x++,y++){
+        moves[x][y] = 'm';
+    }
+    //sw
+    for(int x=col-1, y=row+1; x>=0 && y<=7; x--,y++){
+        moves[x][y] = 'm';
+    }
+
+    //nw
+    for(int x=col-1, y=row-1; x>=0 && y>=0; x--,y--){
+        moves[x][y] = 'm';
+    }
+
+        
+
     //if able to kill
     //constant M represent move
     //constant K represent kill

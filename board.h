@@ -4,25 +4,28 @@
 #include <iostream>
 #include "player.h"
 
-class Board: public Player {//extend peice class after
-    private:
-    string turn; //which players turn, one of w or b
 
+class Board{//extend peice class after
     public:
     //2d array for peice class for board
     //change to peice type
     //board is [x][y]
+    Board(Player* fp,Player* sp);
+    int whiteWin;
+    int blackWin;
+    char whichTurn;
     char**curBoard;
     //first player second player
-    Player* fp;
-    Player* sp;
-    
 
+    void move(Player* fp,Player* sp);
+    void setup(Player* fp,Player* sp); //setup mode
+    void game(Player* fp,Player* sp); //the ingame
+    void reset(Player* fp,Player* sp);
+    bool checkBoard(Board *board); //checks if the board during setup is valid.
+    std::string checkString(const std::string &s);    
     ~Board();
-    void start(); //initial board creation
-    void setup(); //setup mode
-    void movePiece(const int x1y1, const int x2y2); // moves a piece
-    void game(); //actual gameplay
+    
+    
     //void end();
     //bool isCheckMate();
     //bool isCheck();

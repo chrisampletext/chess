@@ -1,0 +1,23 @@
+setup = black done
+game human human
+move a7 a5
+move d2 d4
+move a8 a6
+move a2 a4
+move c7 c5
+move d4 c5
+move a6 d6
+move c1 f4
+move d6 d2
+move d1 c1
+move d2 d1
+move a1 a2
+move h7 h5
+move a2 a1
+move h8 h6
+move a1 a2
+move h6 d6
+move a2 a1
+move d6 d2
+move e1 d1
+move d2 d1
