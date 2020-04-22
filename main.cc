@@ -70,7 +70,7 @@ int main() {
                     else{
                     }
                 }
-                cout << "Beginning the game... good luck have fun!!" << endl;
+                cout << "Beginning the game... good luck and have fun!!" << endl;
               
                 b->game(fp,sp);
                 whiteWin = b->whiteWin;
@@ -84,11 +84,11 @@ int main() {
 
             }
             else{
-                cout << "Invalid Command" <<endl;
+                cout << "Invalid Command, please use one of: human or computer[1-2]" <<endl;
             }
         }
         else{
-            cout << "Invalid Command." << endl;
+            cout << "Invalid Command, please use one of: game or setup." << endl;
         }
     }
     cout << "Final Score:" <<endl;

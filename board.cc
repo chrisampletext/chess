@@ -117,7 +117,6 @@ bool Board::checkBoard(Board *board){
     int y = 0;
     for (int x =0; x < 8; ++x){
         if (board->curBoard[x][y] == 'p' || board->curBoard[x][y] == 'P'){
-            cout<<"x: "<<x<<" y: "<<y<<endl;
             return false;
         }
     }
@@ -136,14 +135,11 @@ bool Board::checkBoard(Board *board){
     y = 7;
     for (int x = 0; x < 8; ++x){
         if (board->curBoard[x][y] == 'p' || board->curBoard[x][y] == 'P'){
-            cout<<"x: "<<x<<" y: "<<y<<endl;
             return false;
         }
     }
 
     if (blackKingCount != 1 || whiteKingCount != 1){
-        cout<<blackKingCount<<endl;
-        cout<<whiteKingCount<<endl;
         return false;
     }
     return true;
@@ -164,31 +160,41 @@ void Board::setup(Player* fp,Player* sp){
             cin >> s;
             int x = s[0] - 97;
             int y = abs(s[1] - 48 - 1 - 7);
+            char temp = this->curBoard[x][y];
             this->curBoard[x][y] = c;
             cout<<this<<endl;
-            
-            if(c == 'r'){ 
-                fp->pieces.push_back(new Rook(x, y, 'r'));
-            }else if(c == 'R'){ 
-                sp->pieces.push_back(new Rook(x, y, 'R'));
-            }else if(c == 'n'){ 
-                fp->pieces.push_back(new Knight(x, y, 'n'));
-            }else if(c == 'N'){ 
-                sp->pieces.push_back(new Knight(x, y, 'N'));
-            }else if(c == 'k'){ 
-                fp->pieces.push_back(new King(x, y, 'k'));
-            }else if(c == 'K'){ 
-                sp->pieces.push_back(new King(x, y, 'K'));
-            }else if(c == 'q'){ 
-                fp->pieces.push_back(new Queen(x, y, 'q'));
-            }else if(c == 'Q'){ 
-                sp->pieces.push_back(new Queen(x, y, 'Q'));
-            }else if(c == 'p'){ 
-                fp->pieces.push_back(new Pawn(x, y, 'p'));
-            }else if(c == 'P'){ 
-                sp->pieces.push_back(new Pawn(x, y, 'P'));
-            }         
 
+            //check if the coordinates are valid
+            if (x > 7 || x < 0 || y > 7 || y < 0){
+                cout << "The coordinates you have entered does not exist on this board." << endl;
+            }
+
+            else{
+                if(c == 'r'){ 
+                    fp->pieces.push_back(new Rook(x, y, 'r'));
+                }else if(c == 'R'){ 
+                    sp->pieces.push_back(new Rook(x, y, 'R'));
+                }else if(c == 'n'){ 
+                    fp->pieces.push_back(new Knight(x, y, 'n'));
+                }else if(c == 'N'){ 
+                    sp->pieces.push_back(new Knight(x, y, 'N'));
+                }else if(c == 'k'){ 
+                    fp->pieces.push_back(new King(x, y, 'k'));
+                }else if(c == 'K'){ 
+                    sp->pieces.push_back(new King(x, y, 'K'));
+                }else if(c == 'q'){ 
+                    fp->pieces.push_back(new Queen(x, y, 'q'));
+                }else if(c == 'Q'){ 
+                    sp->pieces.push_back(new Queen(x, y, 'Q'));
+                }else if(c == 'p'){ 
+                    fp->pieces.push_back(new Pawn(x, y, 'p'));
+                }else if(c == 'P'){ 
+                    sp->pieces.push_back(new Pawn(x, y, 'P'));
+                }
+                else{
+                    cout << "The piece you have specified does not exist, please add a valid piece." << endl;
+                }
+            }         
         }
         else if (s == "-"){ //remove a piece
 
@@ -203,18 +209,23 @@ void Board::setup(Player* fp,Player* sp){
             fp->curRow = y;
             sp->curCol = x;
             sp->curRow = y;
-            if(fp->getPiece() != -1){
-                fp->pieces.erase(fp->pieces.begin()+fp->getPiece());
-            }else if(sp->getPiece() != -1){
-                sp->pieces.erase(sp->pieces.begin()+sp->getPiece());
+            if (x > 7 || x < 0 || y > 7 || y < 0){
+                cout << "The coordinates you have entered does not exist on this board." << endl;
             }
-            if (this->curBoard[x][y] != '*'){
-                this->curBoard[x][y] = '*';
-               
+            else{
+                if(fp->getPiece() != -1){
+                    fp->pieces.erase(fp->pieces.begin()+fp->getPiece());
+                    this->curBoard[x][y] = '*';
+                    cout << this << endl;
+                }else if(sp->getPiece() != -1){
+                    sp->pieces.erase(sp->pieces.begin()+sp->getPiece());
+                    this->curBoard[x][y] = '*';
+                    cout << this << endl;
+                }
+                else{
+                    cout << "There was no piece located at: " << s << endl;
+                }
             }
-
-            cout << this << endl;
-            
         }
         
         else if (s == "="){//change who starts the game
@@ -231,7 +242,7 @@ void Board::setup(Player* fp,Player* sp){
         }
         else if (s == "done"){ //main menu
             if (checkBoard(this) == false){
-                cout << "BOARD IS INVALID, PLEASE CREATE A VALID BOARD" << endl;
+                cout << "The board is currently invalid, you must have a valid board before playing." << endl;
             }
             else{
                 cout << "MAIN MENU" << endl;
@@ -240,7 +251,7 @@ void Board::setup(Player* fp,Player* sp){
             }
         }
         else{
-            cout << "Invalid Command" << endl;
+            cout << "Invalid Command." << endl;
         }
     }
 }
@@ -251,14 +262,11 @@ void Board::game(Player* fp,Player* sp){
       for(int i =0; i< fp->pieces.size(); i++){
           cout<<fp->pieces[i]->col<<",";
             cout<<fp->pieces[i]->row<<" "<<fp->pieces[i]->name<<endl;
-            
         }
         cout<<endl;
         for(int i =0; i< sp->pieces.size(); i++){
             cout<<sp->pieces[i]->col<<",";
-            cout<<sp->pieces[i]->row<<" "<<sp->pieces[i]->name<<endl;;
-            
-                
+            cout<<sp->pieces[i]->row<<" "<<sp->pieces[i]->name<<endl;;        
         }
     string s;
     istringstream ss();
@@ -276,31 +284,31 @@ void Board::game(Player* fp,Player* sp){
             }
             return;
         }
-        else if (s == "move"){
-            
-            //cout << "Player "<<whichTurn<<" Turn"<< endl;
-            
+        else if (s == "move"){  
             string initPos; //take in our two positions
             string finalPos;
             cin >> initPos;
             cin >> finalPos;
-                /*this->curBoard[x2][y2] = this->curBoard[x1][y1]; //this is the swap.
-                this->curBoard[x1][y1] = '*';*/
-                
+
+            int x1 = initPos[0] - 97;//converting using ASCII
+            int y1 = abs(initPos[1] - 48 - 1 - 7);//subtract 1 to get arrary coords then subtract 7 to invert to correct space.
+            int x2 = finalPos[0] - 97; 
+            int y2 = abs(finalPos[1] - 48 - 1 - 7);
+            
+            if (x1 > 7 || x1 < 0 || y1 > 7 || y1 < 0 || x2 > 7 || x2 < 0 || y2 > 7 || y2 < 0){
+                cout << "The coordinates you have entered does not exist on this board, please enter valid coordinates." << endl;
+            }
+            else{  
             if (whichTurn == 'w'){
                 char otherTurn = 'b';
-                fp->curCol = initPos[0] - 97; //converting using ASCII
-                fp->curRow = abs(initPos[1] - 48 - 1 - 7); //subtract 1 to get arrary coords then subtract 7 to invert to correct space.
+                fp->curCol = initPos[0] - 97; 
+                fp->curRow = abs(initPos[1] - 48 - 1 - 7); 
                 fp->nextCol = finalPos[0] - 97; 
                 fp->nextRow = abs(finalPos[1] - 48 - 1 - 7);
                 if(fp->canMove()){
-
                     //check if the move was to the end of the board
                     // if it was a pawn then promote
                     // then run the following code on the newly constructed piece
-
-
-
                     //check if white is in check
                     //if white is in check and the move does not get them away from check
                     //cout Invalid move, White King is in check.
@@ -310,14 +318,13 @@ void Board::game(Player* fp,Player* sp){
                     cout << this << endl; //output the board
                     if(fp->isCheck()){
                         if(fp->isCheckMate()){
-                            cout<<"checkmate "<<whichTurn<<" wins"<<endl;
+                            cout<<"Checkmate! "<<whichTurn<<" wins!"<<endl;
                             whiteWin++;
                             return;
                         }else{
-                            cout<<otherTurn<<" is in check"<<endl;
+                            cout<<otherTurn<<" is in check."<<endl;
                         }
                     }  
-
                     // check if it has put black in checkmate
                     // if checkmate then output "Checkmate! White wins!"
                     // whiteWin++
@@ -326,14 +333,11 @@ void Board::game(Player* fp,Player* sp){
                     // otherwise just execute the move and print the board out
                     //cout<<"hello";
                     whichTurn = 'b';
-
-
                 }
                 else{
                     cout << this << endl; //output the board
-                    cout << "INVALID COMMAND (still player1(w) turn)" << endl;
-                }
-                        
+                    cout << "Your command is invalid, please enter a valid command for White." << endl;
+                }             
             }
             else{
                 char otherTurn = 'w';
@@ -349,25 +353,24 @@ void Board::game(Player* fp,Player* sp){
                     
                     if(sp->isCheck()){
                         if(sp->isCheckMate()){
-                            cout<<"checkmate "<<whichTurn<<" wins"<<endl;
+                            cout<<"Checkmate! "<<whichTurn<<" wins!"<<endl;
                             blackWin++;
                             return;
                         }else{
-                            cout<<otherTurn<<" is in check"<<endl;
+                            cout<<otherTurn<<" is in check."<<endl;
                         }
                     }   
-                    whichTurn = 'w';
-                }else{
-                    cout << this << endl; //output the board
-                    cout << "INVALID COMMAND (still player2(b) turn)" << endl;
+                whichTurn = 'w';
                 }
-                        
+                else{
+                    cout << this << endl; //output the board
+                    cout << "Your command is invalid, please enter a valid command for Black." << endl;
+                }         
             }
-                    
-        }
-                
-                
-            
+        }                      
     }
-        
+        else{
+            cout << "Invalid Command." << endl;
+        } 
+    }
 }
