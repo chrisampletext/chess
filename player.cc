@@ -9,7 +9,7 @@
 using namespace std;
 
 Player::~Player(){
-    
+    this->opponent = nullptr;
 }
 Player::Player(int num){
     number = num;
@@ -128,6 +128,8 @@ bool Player::isCheckMate(){
                         }
                     }
                 //}
+                delete currentOppPlayerState;
+                delete currentPlayerState;
             }
         }
         
@@ -242,21 +244,23 @@ bool Player::canMove(){
 
 
         //havent tested
-        /*Player* currentPlayerState = new Player(this->opponent);
-        Player* currentOppPlayerState = new Player(this);
-        currentOppPlayerState->opponent=currentPlayerState;
-        currentPlayerState->opponent=currentOppPlayerState;
-        currentOppPlayerState->curCol=currentOppPlayerState->pieces[i]->col;
-        currentOppPlayerState->curRow=currentOppPlayerState->pieces[i]->row;
-        currentOppPlayerState->nextCol=x;
-        currentOppPlayerState->nextRow=y;
+        Player* me = new Player(this);
+        Player* opp = new Player(this->opponent);
+        me->opponent=opp;
+        opp->opponent=me;
+        me->curCol=curCol;
+        me->curRow=curRow;
+        me->nextCol=nextCol;
+        me->nextRow=nextRow;
                         
-        currentOppPlayerState->move();
+        me->move();
                         
-        if(currentPlayerState->isCheck()){
+        if(opp->isCheck()){
                 //something getting modified
             return false;
-        }*/
+        }
+        delete me;
+        delete opp;
         
 
 
